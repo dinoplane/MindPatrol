@@ -67,6 +67,28 @@ class Play extends Phaser.Scene {
         this.scoreLeft = this.add.text(borderUISize + borderPadding, 
                                         borderUISize + borderPadding*2, this.p1Score, scoreConfig);  
         
+        // display score
+        let fireConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'center',
+            padding: {
+            top: 5,
+            bottom: 5,
+            },
+            fixedWidth: 100
+        }
+
+        this.fireLeft = this.add.text(borderUISize*6 + borderPadding, 
+                                        borderUISize + borderPadding*2, "FIRE", fireConfig);
+        this.fireLeft.visible = false; // FIRE DISPLAY!
+
+        // Time is ticking down...
+        this.timeRight = this.add.text(game.config.width - scoreConfig.fixedWidth - (borderUISize + borderPadding), 
+                                    borderUISize + borderPadding*2, game.settings.gameTimer/1000, scoreConfig); 
+
         // GAME OVER flag
         this.gameOver = false;
 
@@ -79,9 +101,11 @@ class Play extends Phaser.Scene {
                             'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+
     }
 
     update() {
+
         this.starfield.tilePositionX -= 1;
         if (!this.gameOver) {               
             this.p1Rocket.update();         // update rocket sprite
@@ -91,6 +115,8 @@ class Play extends Phaser.Scene {
         // check collisions
         for (let ship of this.ships){
             if(this.checkCollision(this.p1Rocket, ship)) {
+                this.clock
+                this.p1Rocket.incrementCombo();
                 this.p1Rocket.reset();
                 this.shipExplode(ship);   
             }
@@ -102,6 +128,9 @@ class Play extends Phaser.Scene {
 
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT))
             this.scene.start("menuScene");
+        
+        this.fireLeft.visible = this.p1Rocket.isFiring; // Show me fire
+        this.timeRight.text = Math.ceil(this.clock.getOverallRemainingSeconds()); // Show me time
     }
 
     checkCollision(rocket, ship) {
@@ -124,6 +153,10 @@ class Play extends Phaser.Scene {
             boom.destroy();                       // remove explosion sprite
         });
 
+        if (this.p1Rocket.combo > game.settings.comboGoal){
+            this.clock.delay += 5000;
+        }
+            
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;   

@@ -44,7 +44,8 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 numSpaceships: 3,
                 spaceshipSpeed: 3,
-                gameTimer: 60000    
+                gameTimer: 5000,
+                comboGoal: 5 // 5 consecutive hits starts combo
             }
             this.sound.play('sfx_select');
             this.scene.start('playScene');    
@@ -54,7 +55,8 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 numSpaceships: 3,
                 spaceshipSpeed: 5,
-                gameTimer: 45000    
+                gameTimer: 45000,
+                comboGoal: 5
             }
             this.sound.play('sfx_select');
             this.scene.start('playScene');    

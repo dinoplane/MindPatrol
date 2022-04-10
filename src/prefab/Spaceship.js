@@ -19,7 +19,17 @@ class Spaceship extends Phaser.GameObjects.Sprite {
     }
 
     reset(){
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-        this.x = game.config.width + Math.floor(Math.random() * game.config.width/2);
+        
+        this.x = game.config.width;// + this.getRandomInt(game.config.width/2);
     }
+
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    getRandomInt(max = 0) {
+        return Math.floor(Math.random() * max);
+    }
+
+    getRandomInt(min=0, max = 0) {
+        return min + Math.floor(Math.random() * (max - min));
+    }
+      
 }
