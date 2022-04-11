@@ -44,7 +44,7 @@ class Menu extends Phaser.Scene {
             game.settings = {
                 numSpaceships: 3,
                 spaceshipSpeed: 3,
-                gameTimer: 5000,
+                gameTimer: 60000,
                 comboGoal: 5, // 5 consecutive hits starts combo
                 comboDuration: 2000
             }
