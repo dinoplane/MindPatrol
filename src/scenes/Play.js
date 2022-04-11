@@ -67,7 +67,7 @@ class Play extends Phaser.Scene {
         this.scoreLeft = this.add.text(borderUISize + borderPadding, 
                                         borderUISize + borderPadding*2, this.p1Score, scoreConfig);  
         
-        // display score
+        // display fire
         let fireConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -81,7 +81,7 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         }
 
-        this.fireLeft = this.add.text(borderUISize*6 + borderPadding, 
+        this.fireLeft = this.add.text(borderUISize*5 + borderPadding, 
                                         borderUISize + borderPadding*2, "FIRE", fireConfig);
         this.fireLeft.visible = false; // FIRE DISPLAY!
 
@@ -102,10 +102,39 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
 
+
+        // display combo
+        let comboConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            color: '#843605',
+            align: 'center',
+            padding: {
+            top: 5,
+            bottom: 5,
+            },
+            fixedWidth: 100
+        }
+
+        this.comboBar =  this.add.rectangle(game.config.width - comboConfig.fixedWidth - (borderUISize*5 + borderPadding), 
+                                            borderUISize + borderPadding*2,
+                                            comboConfig.fixedWidth, 
+                                            35, 
+                                            "0xF30000").setOrigin(0,0).setStrokeStyle(); 
+
+        this.comboLabel =  this.add.text(game.config.width - comboConfig.fixedWidth - (borderUISize*5 + borderPadding), 
+                                            borderUISize + borderPadding*2, "x 1", comboConfig); 
+        
+        this.comboTimer = this.time.addEvent({
+            delay: 0,
+            callback: this.p1Rocket.resetCombo,
+            loop: false,
+            callbackScope: this.p1Rocket,
+        });
     }
 
     update() {
-
+        console.log(this.comboBar.width)
         this.starfield.tilePositionX -= 1;
         if (!this.gameOver) {               
             this.p1Rocket.update();         // update rocket sprite
@@ -131,6 +160,16 @@ class Play extends Phaser.Scene {
         
         this.fireLeft.visible = this.p1Rocket.isFiring; // Show me fire
         this.timeRight.text = Math.ceil(this.clock.getOverallRemainingSeconds()); // Show me time
+
+        if (this.p1Rocket.combo == 0){
+            this.comboLabel.visible = false;
+            this.comboBar.visible = false;
+        } else {
+            this.comboLabel.visible = true;
+            this.comboBar.visible = true;
+            this.comboLabel.text = this.p1Rocket.combo;
+            this.comboBar.width = this.comboLabel.width * this.comboTimer.getRemaining() / game.settings.comboDuration;
+        }
     }
 
     checkCollision(rocket, ship) {
@@ -156,8 +195,20 @@ class Play extends Phaser.Scene {
         if (this.p1Rocket.combo > game.settings.comboGoal){
             this.clock.delay += 5000;
         }
-            
+
+
         // score add and repaint
+
+        // Combo timer owo
+        this.comboTimer.remove();
+        this.comboTimer.reset({
+            delay:  game.settings.comboDuration,
+            callback: this.p1Rocket.resetCombo,
+            loop: false,
+            callbackScope: this.p1Rocket,
+        });
+        this.time.addEvent(this.comboTimer); 
+        
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;   
         this.sound.play('sfx_explosion');  

@@ -40,6 +40,12 @@ class Rocket extends Phaser.GameObjects.Sprite {
     incrementCombo(){
         this.combo += 1;
     }
+    
+    resetCombo(){
+        console.log(this);
+        this.combo = 0;
+    }
+    
 
     reset(){
         this.isFiring = false;
