@@ -1,12 +1,26 @@
 // Rocket prefab
 class Rocket extends Projectile {
-    constructor(scene, x, y, texture, frame) {
+    constructor(scene, x, y, texture, frame, controls) {
         super(scene, x, y, texture, frame, 
                             game.settings.rocketSpeed, 
                             game.config.height - borderUISize - borderPadding);
 
         // add object to existing scene
         scene.add.existing(this);
+
+        // Initialize controls
+        this.keyFIRE = scene.input.keyboard.addKey(controls.fire);
+        this.keyFIRE.on('down', (key, event) => {
+            console.log("pressed");
+            if (!this.isFiring){
+                this.isFiring = true;
+                this.sfxRocket.play();  // play sfx
+            }
+        })
+
+        this.keyLEFT = scene.input.keyboard.addKey(controls.left);
+        this.keyRIGHT = scene.input.keyboard.addKey(controls.right);
+
         this.isFiring = false;
         this.combo = 0;
         console.log(this.moveSpeed);
@@ -16,16 +30,10 @@ class Rocket extends Projectile {
     update(){
         // left right movement NOW AVAILABLE WHEN FIRING
         
-        if (keyLEFT.isDown && this.x >=borderUISize + this.width) 
+        if (this.keyLEFT.isDown && this.x >=borderUISize + this.width) 
             this.x -= this.moveSpeed;
-        else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width)
+        else if (this.keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width)
             this.x += this.moveSpeed;
-
-        // fire button
-        if ((Phaser.Input.Keyboard.JustDown(keySPACE)) && !this.isFiring) {
-            this.isFiring = true;
-            this.sfxRocket.play();  // play sfx
-        }
 
         // If fired, move up
         if (this.isFiring && this.y >= borderUISize * 3 + borderPadding) 

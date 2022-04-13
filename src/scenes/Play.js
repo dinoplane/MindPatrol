@@ -21,8 +21,10 @@ class Play extends Phaser.Scene {
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
        
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
             
+        let controls = {left: 'A', right: 'D', fire: 'SPACE'}
+        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0, controls).setOrigin(0.5, 0);
+
         this.projectiles = [];
         this.projectiles.push(this.p1Rocket);
 
@@ -37,10 +39,8 @@ class Play extends Phaser.Scene {
         }
 
         // define keys
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
         //pointer = this.input.mousePointer;
 
         // animation config

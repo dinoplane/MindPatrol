@@ -35,7 +35,7 @@ class Alienship extends Spaceship {
       
     reset(){
         super.reset();
-        this.moveSpeed = game.settings.spaceshipSpeed
+        this.moveSpeed = game.settings.spaceshipSpeed;
     }
 
     // zig movement

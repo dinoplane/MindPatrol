@@ -29,6 +29,8 @@ class Menu extends Phaser.Scene {
                         'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2 , game.config.height/2, 
                         'Use ⬌ arrows to move & (SPACE) to fire', menuConfig).setOrigin(0.5);
+
+        
         menuConfig.backgroundColor = "#00FF00";
         menuConfig.color = "#000";
         this.add.text(game.config.width/2 , game.config.height/2 + borderUISize + borderPadding, 
@@ -44,6 +46,8 @@ class Menu extends Phaser.Scene {
         keyRIGHT.on('down', (key, event) => {
             this.startExpertGame();
         });
+
+        console.log(this.input.keyboard.on('keydown', (key) => {console.log(key)}));
     }
 
     startExpertGame() {
@@ -53,7 +57,7 @@ class Menu extends Phaser.Scene {
             spaceshipSpeed: game.config.width/128,
             gameTimer: 45000,
             comboGoal: 5,
-            comboDuration: 1500
+            comboDuration: 1500,
         };
         this.sound.play('sfx_select');
         this.scene.start('playScene');
