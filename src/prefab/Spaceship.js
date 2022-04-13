@@ -25,7 +25,8 @@ class Spaceship extends Phaser.GameObjects.Sprite {
             this.reset();
     }
 
-    reset(){   
+    reset(){
+        this.moveSpeed = this.getRandomInt(game.settings.spaceshipSpeed / 3, game.settings.spaceshipSpeed);
         this.x = (this.moveDirection < 0) ? game.config.width : 0 - this.width;
     }
 
@@ -37,5 +38,4 @@ class Spaceship extends Phaser.GameObjects.Sprite {
     getRandomInt(min=0, max = 0) {
         return min + Math.floor(Math.random() * (max - min));
     }
-      
 }

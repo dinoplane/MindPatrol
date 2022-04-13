@@ -1,12 +1,13 @@
 // Rocket prefab
-class Rocket extends Phaser.GameObjects.Sprite {
+class Rocket extends Projectile {
     constructor(scene, x, y, texture, frame) {
-        super(scene, x, y, texture, frame);
+        super(scene, x, y, texture, frame, 
+                            game.settings.rocketSpeed, 
+                            game.config.height - borderUISize - borderPadding);
 
         // add object to existing scene
         scene.add.existing(this);
         this.isFiring = false;
-        this.moveSpeed = game.settings.rocketSpeed;
         this.combo = 0;
         console.log(this.moveSpeed);
         this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
@@ -46,9 +47,8 @@ class Rocket extends Phaser.GameObjects.Sprite {
         this.combo = 0;
     }
     
-
     reset(){
+        super.reset();
         this.isFiring = false;
-        this.y = game.config.height - borderUISize - borderPadding;
     }
 }

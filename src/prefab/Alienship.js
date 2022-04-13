@@ -9,6 +9,12 @@ class Alienship extends Spaceship {
             repeat: -1
         });
 
+        // this.spawned = 0;
+        // this.respawnTimer = scene.time.addEvent({
+        //     delay: 15000,
+        //     callback: this.
+        // })
+
         this.zigTimer = scene.time.addEvent({
             delay: 2000,
             callback: this.zig,
@@ -27,6 +33,11 @@ class Alienship extends Spaceship {
         console.log(this.visible);
     }
       
+    reset(){
+        super.reset();
+        this.moveSpeed = game.settings.spaceshipSpeed
+    }
+
     // zig movement
     zig(){
         this.moveDirection *= -0.2;

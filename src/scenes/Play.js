@@ -20,14 +20,12 @@ class Play extends Phaser.Scene {
 
         // green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-        // white borders
-        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-
+       
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
             
+        this.projectiles = [];
+        this.projectiles.push(this.p1Rocket);
+
         // add spaceships (x3)
         this.ships = [];
         this.ships.push(new Alienship(this, game.config.width + 3*borderUISize,
@@ -135,6 +133,13 @@ class Play extends Phaser.Scene {
             loop: false,
             callbackScope: this.p1Rocket,
         });
+
+        // white borders
+        this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+        this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+
         console.log(game.config);
     }
 
@@ -148,10 +153,12 @@ class Play extends Phaser.Scene {
         } 
         // check collisions
         for (let ship of this.ships){
-            if(this.checkCollision(this.p1Rocket, ship)) {
-                this.p1Rocket.incrementCombo();
-                this.p1Rocket.reset();
-                this.shipExplode(ship);   
+            for (let projectile of this.projectiles){
+                if(this.checkCollision(this.p1Rocket, ship)) {
+                    this.p1Rocket.incrementCombo();
+                    this.p1Rocket.reset();
+                    this.shipExplode(ship);   
+                }
             }
         }
 
@@ -178,10 +185,7 @@ class Play extends Phaser.Scene {
 
     checkCollision(rocket, ship) {
         // simple AABB checking
-        return (rocket.x < ship.x + ship.width && 
-            rocket.x + rocket.width > ship.x && 
-            rocket.y < ship.y + ship.height &&
-            rocket.height + rocket.y > ship. y) 
+        return rocket.checkCollision(ship);
     }
 
     shipExplode(ship) {
