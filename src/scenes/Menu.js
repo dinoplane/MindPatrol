@@ -36,33 +36,39 @@ class Menu extends Phaser.Scene {
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-    }
-    
-    update() {
-        if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            // easy mode
-            game.settings = {
-                numSpaceships: 3,
-                spaceshipSpeed: 3,
-                gameTimer: 60000,
-                comboGoal: 5, // 5 consecutive hits starts combo
-                comboDuration: 2000
-            }
-            this.sound.play('sfx_select');
-            this.scene.start('playScene');    
-        }
-        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
-            // hard mode
-            game.settings = {
-                numSpaceships: 3,
-                spaceshipSpeed: 5,
-                gameTimer: 45000,
-                comboGoal: 5,
-                comboDuration: 1500
-            }
-            this.sound.play('sfx_select');
-            this.scene.start('playScene');    
-        }
+
+        keyLEFT.on('down', (key, event) => {
+            this.startNoviceGame();
+        });
+
+        keyRIGHT.on('down', (key, event) => {
+            this.startExpertGame();
+        });
     }
 
+    startExpertGame() {
+        game.settings = {
+            rocketSpeed: game.config.height/240,
+            numSpaceships: 3,
+            spaceshipSpeed: game.config.width/128,
+            gameTimer: 45000,
+            comboGoal: 5,
+            comboDuration: 1500
+        };
+        this.sound.play('sfx_select');
+        this.scene.start('playScene');
+    }
+
+    startNoviceGame() {
+        game.settings = {
+            rocketSpeed: game.config.height/240,
+            numSpaceships: 3,
+            spaceshipSpeed: game.config.width/320,
+            gameTimer: 60000,
+            comboGoal: 5,
+            comboDuration: 2000
+        };
+        this.sound.play('sfx_select');
+        this.scene.start('playScene');
+    }
 }
