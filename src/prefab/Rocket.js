@@ -14,7 +14,7 @@ class Rocket extends Projectile {
         this.keyFIRE = scene.input.keyboard.addKey(controls.fire);
         this.keyFIRE.on('down', (key, event) => {
             console.log("pressed");
-            if (!this.isFiring){
+            if (!this.isFiring && !scene.gameOver){
                 this.isFiring = true;
                 this.sfxRocket.play();  // play sfx
             }
@@ -34,9 +34,6 @@ class Rocket extends Projectile {
             loop: false,
             callbackScope: this,
         });
-
-
-
         this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
     }
 

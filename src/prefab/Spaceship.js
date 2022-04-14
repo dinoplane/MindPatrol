@@ -6,7 +6,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
 
         // add object to existing scene
         scene.add.existing(this);
-
+        this.cachedSpeed = 0;
         this.points = pointValue;
         this.moveSpeed = game.settings.spaceshipSpeed;
         this.moveDirection = (this.getRandomInt(2)) ? -1: 1;
@@ -37,5 +37,11 @@ class Spaceship extends Phaser.GameObjects.Sprite {
 
     getRandomInt(min=0, max = 0) {
         return min + Math.floor(Math.random() * (max - min));
+    }
+
+    togglePause(){
+        let tmp = this.moveSpeed;
+        this.moveSpeed = this.cachedSpeed;
+        this.cachedSpeed = tmp;
     }
 }

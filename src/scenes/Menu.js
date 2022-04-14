@@ -55,7 +55,7 @@ class Menu extends Phaser.Scene {
             rocketSpeed: game.config.height/240,
             numSpaceships: 3,
             spaceshipSpeed: game.config.width/128,
-            gameTimer: 45000,
+            gameTimer: 5000,
             comboGoal: 5,
             comboDuration: 1500,
         };
