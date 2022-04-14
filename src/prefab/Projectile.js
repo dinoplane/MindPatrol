@@ -23,4 +23,8 @@ class Projectile extends Phaser.GameObjects.Sprite {
             this.y < ship.y + ship.height &&
             this.height + this.y > ship.y) 
     }
+
+    handleCollision(){
+
+    }
 }

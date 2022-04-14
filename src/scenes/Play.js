@@ -24,7 +24,7 @@ class Play extends Phaser.Scene {
             
         let controls = {left: 'A', right: 'D', fire: 'SPACE'}
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0, controls).setOrigin(0.5, 0);
-
+        
         this.projectiles = [];
         this.projectiles.push(this.p1Rocket);
 
@@ -112,27 +112,20 @@ class Play extends Phaser.Scene {
             color: '#843605',
             align: 'center',
             padding: {
-            top: 5,
-            bottom: 5,
+                top: 5,
+                bottom: 5,
             },
             fixedWidth: 100
         }
+        // scaling the 
+        // let x = game.config.width - comboConfig.fixedWidth - (borderUISize*5 + borderPadding);
+        // let y =   borderUISize + borderPadding*2;
+        // let config = comboConfig;
+        // this.comboBar =  this.add.rectangle(x, y, config.fixedWidth, 
+        //     35, 
+        //     "0xF30000").setOrigin(0,0).setStrokeStyle(); 
 
-        this.comboBar =  this.add.rectangle(game.config.width - comboConfig.fixedWidth - (borderUISize*5 + borderPadding), 
-                                            borderUISize + borderPadding*2,
-                                            comboConfig.fixedWidth, 
-                                            35, 
-                                            "0xF30000").setOrigin(0,0).setStrokeStyle(); 
-
-        this.comboLabel =  this.add.text(game.config.width - comboConfig.fixedWidth - (borderUISize*5 + borderPadding), 
-                                            borderUISize + borderPadding*2, "x 1", comboConfig); 
-        
-        this.comboTimer = this.time.addEvent({
-            delay: 0,
-            callback: this.p1Rocket.resetCombo,
-            loop: false,
-            callbackScope: this.p1Rocket,
-        });
+        // this.comboLabel =  this.add.text(x, y, "x 1", config); 
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -141,6 +134,8 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
 
         console.log(game.config);
+        this.comboBar = new ComboBar(this, game.config.width - comboConfig.fixedWidth - (borderUISize*5 + borderPadding), 
+                                borderUISize + borderPadding*2, comboConfig, this.p1Rocket);
     }
 
     update() {
@@ -151,12 +146,12 @@ class Play extends Phaser.Scene {
             for (let ship of this.ships)
                 ship.update();
         } 
+    
         // check collisions
         for (let ship of this.ships){
             for (let projectile of this.projectiles){
-                if(this.checkCollision(this.p1Rocket, ship)) {
-                    this.p1Rocket.incrementCombo();
-                    this.p1Rocket.reset();
+                if(this.checkCollision(projectile, ship)) {
+                    projectile.handleCollision();
                     this.shipExplode(ship);   
                 }
             }
@@ -171,16 +166,10 @@ class Play extends Phaser.Scene {
         
         this.fireLeft.visible = this.p1Rocket.isFiring; // Show me fire
         this.timeRight.text = Math.ceil(this.clock.getOverallRemainingSeconds()); // Show me time
+        this.comboBar.update();
 
-        if (this.p1Rocket.combo == 0){
-            this.comboLabel.visible = false;
-            this.comboBar.visible = false;
-        } else {
-            this.comboLabel.visible = true;
-            this.comboBar.visible = true;
-            this.comboLabel.text = this.p1Rocket.combo;
-            this.comboBar.width = this.comboLabel.width * this.comboTimer.getRemaining() / game.settings.comboDuration;
-        }
+//        for (let rocket of this.players)
+
     }
 
     checkCollision(rocket, ship) {
@@ -208,14 +197,7 @@ class Play extends Phaser.Scene {
         // score add and repaint
 
         // Combo timer owo
-        this.comboTimer.remove();
-        this.comboTimer.reset({
-            delay:  game.settings.comboDuration,
-            callback: this.p1Rocket.resetCombo,
-            loop: false,
-            callbackScope: this.p1Rocket,
-        });
-        this.time.addEvent(this.comboTimer); 
+
         
         this.p1Score += ship.points * this.p1Rocket.combo;
         this.scoreLeft.text = this.p1Score;   

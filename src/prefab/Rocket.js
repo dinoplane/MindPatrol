@@ -1,13 +1,15 @@
 // Rocket prefab
 class Rocket extends Projectile {
-    constructor(scene, x, y, texture, frame, controls) {
+    static MODES = ["normal", "sniper", "machine_gun"]
+    constructor(scene, x, y, texture, frame, controls, powerupTextures) {
         super(scene, x, y, texture, frame, 
                             game.settings.rocketSpeed, 
                             game.config.height - borderUISize - borderPadding);
 
         // add object to existing scene
         scene.add.existing(this);
-
+        this.mode = 0;
+        this.powerupTextures = powerupTextures;
         // Initialize controls
         this.keyFIRE = scene.input.keyboard.addKey(controls.fire);
         this.keyFIRE.on('down', (key, event) => {
@@ -24,12 +26,22 @@ class Rocket extends Projectile {
         this.isFiring = false;
         this.combo = 0;
         console.log(this.moveSpeed);
+
+
+        this.comboTimer = scene.time.addEvent({
+            delay: 0,
+            callback: this.resetCombo,
+            loop: false,
+            callbackScope: this,
+        });
+
+
+
         this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
     }
 
     update(){
         // left right movement NOW AVAILABLE WHEN FIRING
-        
         if (this.keyLEFT.isDown && this.x >=borderUISize + this.width) 
             this.x -= this.moveSpeed;
         else if (this.keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width)
@@ -41,13 +53,21 @@ class Rocket extends Projectile {
 
         // reset on miss
         if (this.y <= borderUISize * 3 + borderPadding){
-            this.combo = 0;
+            this.resetCombo();
             this.reset();
         }
     }
 
     incrementCombo(){
         this.combo += 1;
+        this.comboTimer.remove();
+        this.comboTimer.reset({
+            delay:  game.settings.comboDuration,
+            callback: this.resetCombo,
+            loop: false,
+            callbackScope: this,
+        });
+        this.scene.time.addEvent(this.comboTimer); 
     }
     
     resetCombo(){
@@ -58,5 +78,10 @@ class Rocket extends Projectile {
     reset(){
         super.reset();
         this.isFiring = false;
+    }
+
+    handleCollision(){
+        this.incrementCombo();
+        this.reset();
     }
 }
