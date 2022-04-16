@@ -53,7 +53,6 @@ class ControlsMenu extends Phaser.Scene {
                 let x = startx -gridUnit/4+ 2*j*gridUnit;
                 this.labels[i].push(this.add.text(x, y, 
                                         controls[i][ControlsMenu.CONTROL_KEYS[j]], menuConfig).setOrigin(0,0));
-                console.log(j)
             }
         }
         
@@ -68,7 +67,6 @@ class ControlsMenu extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        console.log(keyUP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
@@ -107,26 +105,25 @@ class ControlsMenu extends Phaser.Scene {
 
         keyENTER.on('down', (key, event) => {
             this.listening = true;
-            console.log(this.listening);
+            //console.log(this.listening);
             // Change text at the bottom
-            // Change text at selection
-            event.stopPropagation();
+            this.labels[this.selPlayer][this.selKey].text = "[ - ]";
+            event.stopImmediatePropagation();
         });
 
-        this.input.keyboard.on('keydown', (key, event) => {
-            if (this.listening){
-                console.log(key);
-                this.listening = false;
-            }
+        this.input.keyboard.on('keydown', (key) => {
+            this.setKey(key);
         });
 
-
+        keyBACK.on('down', (key, event) => {
+            this.scene.start("menuScene");
+        });
 
         this.drawPanel();
     }
 
     clearPanel(){
-        console.log(this.selPlayer, ", ", this.selKey)
+        //console.log(this.selPlayer, ", ", this.selKey)
         this.labels[this.selPlayer][this.selKey].setBackgroundColor(
                     ControlsMenu.MENU_CONFIG.backgroundColor).setColor(ControlsMenu.MENU_CONFIG.color);
     }
@@ -137,7 +134,12 @@ class ControlsMenu extends Phaser.Scene {
             ControlsMenu.SELECTED_COLOR.backgroundColor).setColor(ControlsMenu.SELECTED_COLOR.color);
     }
 
-    setKey(key, event){
-
+    setKey(key){
+        if (this.listening){
+            this.labels[this.selPlayer][this.selKey].text = key.key;
+            controls[this.selPlayer][ControlsMenu.CONTROL_KEYS[this.selKey]] = key.key;
+            this.listening = false;
+            console.log(controls);
+        }
     }
 }

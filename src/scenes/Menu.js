@@ -40,6 +40,11 @@ class Menu extends Phaser.Scene {
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+
+        keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
+
 
         keyLEFT.on('down', (key, event) => {
             this.startNoviceGame();
@@ -47,6 +52,10 @@ class Menu extends Phaser.Scene {
 
         keyRIGHT.on('down', (key, event) => {
             this.startExpertGame();
+        });
+
+        keyBACK.on('down', (key, event) => {
+            this.openControls();
         });
 
         this.input.keyboard.on('keydown', (key) => {console.log(key)});
