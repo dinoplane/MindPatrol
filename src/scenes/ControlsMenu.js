@@ -33,6 +33,7 @@ class ControlsMenu extends Phaser.Scene {
         let menuConfig = ControlsMenu.MENU_CONFIG;
         //let 
         let startx = game.config.width/2 - menuConfig.fixedWidth / 2;
+        menuConfig.fixedWidth = 0;
         this.add.text(startx , game.config.height/16, 
                         'CONTROLS', menuConfig).setOrigin(0, 0);
 
@@ -104,11 +105,13 @@ class ControlsMenu extends Phaser.Scene {
         });
 
         keyENTER.on('down', (key, event) => {
-            this.listening = true;
-            //console.log(this.listening);
-            // Change text at the bottom
-            this.labels[this.selPlayer][this.selKey].text = "[ - ]";
-            event.stopImmediatePropagation();
+            if (!this.listening){
+                this.listening = true;
+                //console.log(this.listening);
+                // Change text at the bottom
+                this.labels[this.selPlayer][this.selKey].text = "[ - ]";
+                event.stopImmediatePropagation();
+            }
         });
 
         this.input.keyboard.on('keydown', (key) => {
@@ -116,14 +119,14 @@ class ControlsMenu extends Phaser.Scene {
         });
 
         keyBACK.on('down', (key, event) => {
-            this.scene.start("menuScene");
+            if (!this.listening)
+                this.scene.start("menuScene");
         });
 
         this.drawPanel();
     }
 
     clearPanel(){
-        //console.log(this.selPlayer, ", ", this.selKey)
         this.labels[this.selPlayer][this.selKey].setBackgroundColor(
                     ControlsMenu.MENU_CONFIG.backgroundColor).setColor(ControlsMenu.MENU_CONFIG.color);
     }
@@ -137,7 +140,7 @@ class ControlsMenu extends Phaser.Scene {
     setKey(key){
         if (this.listening){
             this.labels[this.selPlayer][this.selKey].text = key.key;
-            controls[this.selPlayer][ControlsMenu.CONTROL_KEYS[this.selKey]] = key.key;
+            controls[this.selPlayer][ControlsMenu.CONTROL_KEYS[this.selKey]] = key.keyCode;
             this.listening = false;
             console.log(controls);
         }

@@ -1,7 +1,7 @@
 class Menu extends Phaser.Scene {
     constructor() {
         super("menuScene");
-        this.currSelection = null;
+        this.numPlayerslabel = null;
     }
 
     preload() {
@@ -9,6 +9,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.image('arrow_up', './assets/arrow_up.png');
+        this.load.image('arrow_down', './assets/arrow_down.png');
     }
 
     create() {
@@ -31,12 +33,23 @@ class Menu extends Phaser.Scene {
                         'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2 , game.config.height/2, 
                         'Use ⬌ arrows to move & (SPACE) to fire', menuConfig).setOrigin(0.5);
-
         
         menuConfig.backgroundColor = "#00FF00";
         menuConfig.color = "#000";
         this.add.text(game.config.width/2 , game.config.height/2 + borderUISize + borderPadding, 
                         'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
+       
+        var container = this.add.container(game.config.width/2, 
+                        game.config.height/2 + (borderUISize + borderPadding)*2);
+       
+        this.numPlayerslabel = this.add.text(0,0, numPlayers, menuConfig)
+        var playerlabel = this.add.text(this.numPlayerslabel.width + borderPadding, 0, "Players", menuConfig)
+        container.add([this.numPlayerslabel, playerlabel])
+        console.log(container.x);
+        container.x = game.config.width/2 - (this.numPlayerslabel.width + playerlabel.width + borderPadding)/2
+
+
+        console.log(container.x);
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -54,11 +67,24 @@ class Menu extends Phaser.Scene {
             this.startExpertGame();
         });
 
+
+        keyUP.on('down', (key, event) => {
+            if (numPlayers < 5) numPlayers += 1;
+        });
+
+        keyDOWN.on('down', (key, event) => {
+            if (numPlayers > 1) numPlayers -= 1;
+        });
+
         keyBACK.on('down', (key, event) => {
             this.openControls();
         });
 
         this.input.keyboard.on('keydown', (key) => {console.log(key)});
+    }
+
+    update(){
+        this.numPlayerslabel.text = numPlayers;
     }
 
     startExpertGame() {
