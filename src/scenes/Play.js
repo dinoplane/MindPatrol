@@ -91,9 +91,9 @@ class Play extends Phaser.Scene {
 
 
 
-        let controls = [{left: 'LEFT', right: 'RIGHT', fire: 'UP'}, 
-                        {left:'A', right: 'D', fire: 'W'}, 
-                        {left:'A', right: 'D', fire: 'W'}]
+        // let controls = [{left: 'LEFT', right: 'RIGHT', fire: 'UP'}, 
+        //                 {left:'A', right: 'D', fire: 'W'}, 
+        //                 {left:'A', right: 'D', fire: 'W'}]
 
         // display fire
         let fireConfig = {
@@ -181,10 +181,10 @@ class Play extends Phaser.Scene {
 
         // check key input for restart
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR))
-            this.scene.restart({controls: this.controls, numPlayers: this.numPlayers});
+            this.scene.restart();
 
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT))
-            this.scene.start("menuScene", {controls: this.controls, numPlayers: this.numPlayers});
+            this.scene.start("menuScene");
         
 
         this.fireLefts.forEach( (fireLeft, index) => {

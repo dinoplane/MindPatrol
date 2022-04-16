@@ -5,17 +5,20 @@ var config = {
     scale: {  width: 920,
               height: 720,
             },
-    scene: [Menu, Play, ControlsMenu],
+    scene: [ControlsMenu, Menu, Play],
   }
 
 var game = new Phaser.Game(config);
 
 // Global Variables
-let controls = [ {left: "LEFT", right: "RIGHT", fire: "UP"}]
-let numPlayers = 1
+let controls = [ {left: "LEFT", right: "RIGHT", fire: "UP"},
+                 {left: "LEFT", right: "RIGHT", fire: "UP"},
+                 {left: "LEFT", right: "RIGHT", fire: "UP"}]
+let numPlayers = 3
 // reserve keyboard vars
-let keySPACE, keyR, keyLEFT, keyRIGHT;
+let keySPACE, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyENTER, keyBACK;
 
 // set UI sizes
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
+let gridUnit = 80

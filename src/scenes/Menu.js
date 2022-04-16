@@ -79,6 +79,6 @@ class Menu extends Phaser.Scene {
     }
 
     openControls(){
-        this.scene.start('controlsScene', {controls: this.controls, numPlayers: this.numPlayers});
+        this.scene.start('controlsScene');
     }
 }
