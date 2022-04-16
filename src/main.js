@@ -1,15 +1,18 @@
-let config = {
+var config = {
     type: Phaser.CANVAS,
     width: 640,
     height: 480,
     scale: {  width: 920,
               height: 720,
             },
-    scene: [ Menu, Play ]
+    scene: [Menu, Play, ControlsMenu],
   }
 
-let game = new Phaser.Game(config);
+var game = new Phaser.Game(config);
 
+// Global Variables
+let controls = [ {left: "LEFT", right: "RIGHT", fire: "UP"}]
+let numPlayers = 1
 // reserve keyboard vars
 let keySPACE, keyR, keyLEFT, keyRIGHT;
 

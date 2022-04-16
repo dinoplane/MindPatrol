@@ -10,7 +10,6 @@ class Projectile extends Phaser.GameObjects.Sprite {
         this.respawnY = respawnY;
         this.combo = 0;
         
-        console.log(this.moveSpeed);
     }
 
     reset(){

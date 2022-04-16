@@ -30,7 +30,7 @@ class Alienship extends Spaceship {
         })
 
         this.play('idle');
-        console.log(this.visible);
+        //console.log(this.visible);
     }
       
     reset(){

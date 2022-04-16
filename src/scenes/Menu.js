@@ -1,6 +1,7 @@
 class Menu extends Phaser.Scene {
     constructor() {
         super("menuScene");
+        this.currSelection = null;
     }
 
     preload() {
@@ -11,6 +12,7 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
+
         // menu text config
         let menuConfig = {
             fontFamily: 'Courier',
@@ -47,7 +49,7 @@ class Menu extends Phaser.Scene {
             this.startExpertGame();
         });
 
-        console.log(this.input.keyboard.on('keydown', (key) => {console.log(key)}));
+        this.input.keyboard.on('keydown', (key) => {console.log(key)});
     }
 
     startExpertGame() {
@@ -60,7 +62,7 @@ class Menu extends Phaser.Scene {
             comboDuration: 1500,
         };
         this.sound.play('sfx_select');
-        this.scene.start('playScene');
+        this.scene.start('playScene', {controls: this.controls, numPlayers: this.numPlayers});
     }
 
     startNoviceGame() {
@@ -73,6 +75,10 @@ class Menu extends Phaser.Scene {
             comboDuration: 2000
         };
         this.sound.play('sfx_select');
-        this.scene.start('playScene');
+        this.scene.start('playScene', {controls: this.controls, numPlayers: this.numPlayers});
+    }
+
+    openControls(){
+        this.scene.start('controlsScene', {controls: this.controls, numPlayers: this.numPlayers});
     }
 }

@@ -13,7 +13,6 @@ class Rocket extends Projectile {
         // Initialize controls
         this.keyFIRE = scene.input.keyboard.addKey(controls.fire);
         this.keyFIRE.on('down', (key, event) => {
-            console.log("pressed");
             if (!this.isFiring && !scene.gameOver){
                 this.isFiring = true;
                 this.sfxRocket.play();  // play sfx
@@ -25,8 +24,6 @@ class Rocket extends Projectile {
 
         this.isFiring = false;
         this.combo = 0;
-        console.log(this.moveSpeed);
-
 
         this.comboTimer = scene.time.addEvent({
             delay: 0,
@@ -68,7 +65,6 @@ class Rocket extends Projectile {
     }
     
     resetCombo(){
-        console.log(this);
         this.combo = 0;
     }
     
