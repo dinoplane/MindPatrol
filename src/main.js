@@ -7,7 +7,7 @@ var config = {
     scale: {  width: 920,
               height: 720,
             },
-    scene: [ControlsMenu, Menu, Play],
+    scene: [Menu, ControlsMenu, Play],
   }
 
 var game = new Phaser.Game(config);
