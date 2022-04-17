@@ -14,7 +14,7 @@ class ControlsMenu extends Phaser.Scene {
         Phaser.Input.Keyboard.KeyCodes.BACKSPACE
     ];
 
-    static SPECIAL_KEYNAMES = ["Left", "Right", "Up", "Down", "Space", "Bksp"]
+    static SPECIAL_KEYNAMES = ["Left", "Right", "Up", "Down", "Space", "Backspace"]
 
     static MENU_CONFIG = {
         fontFamily: 'Courier',
@@ -171,7 +171,8 @@ class ControlsMenu extends Phaser.Scene {
     setKey(key){
         if (this.listening){
             this.labels[this.selPlayer][this.selKey].text = this.getKeyName(key);
-            controls[this.selPlayer][ControlsMenu.CONTROL_KEYS[this.selKey]] = key;
+            console.log(key)
+            controls[this.selPlayer][ControlsMenu.CONTROL_KEYS[this.selKey]] = this.getKeyName(key);
             this.listening = false;
             console.log(controls);
             this.msg1.text = 'Use ←↓↑→ and (ENTER) to select keys.';
