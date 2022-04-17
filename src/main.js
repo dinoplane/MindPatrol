@@ -18,7 +18,7 @@ let controls = [ {left: "Left", right: "Right", fire: "Up"},
                  {left: "Left", right: "Right", fire: "Up"},
                  {left: "Left", right: "Right", fire: "Up"},
                  {left: "Left", right: "Right", fire: "Up"}]
-let numPlayers = 3
+let numPlayers = 1
 // reserve keyboard vars
 let keySPACE, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyENTER, keyBACK;
 

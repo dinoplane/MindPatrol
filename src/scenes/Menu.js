@@ -32,7 +32,7 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2 , game.config.height/2 - borderUISize - borderPadding, 
                         'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2 , game.config.height/2, 
-                        'Use ⬌ arrows to move & (SPACE) to fire', menuConfig).setOrigin(0.5);
+                        'Press (BACKSPACE) for controls', menuConfig).setOrigin(0.5);
         
         menuConfig.backgroundColor = "#00FF00";
         menuConfig.color = "#000";
@@ -42,9 +42,11 @@ class Menu extends Phaser.Scene {
         var container = this.add.container(game.config.width/2, 
                         game.config.height/2 + (borderUISize + borderPadding)*2);
        
-        this.numPlayerslabel = this.add.text(0,0, numPlayers, menuConfig)
-        var playerlabel = this.add.text(this.numPlayerslabel.width + borderPadding, 0, "Players", menuConfig)
-        container.add([this.numPlayerslabel, playerlabel])
+        this.numPlayerslabel = this.add.text(0,borderPadding, numPlayers, menuConfig).setOrigin(0.5,0)
+        var playerlabel = this.add.text(this.numPlayerslabel.width + borderPadding, borderPadding, "Player(s)", menuConfig).setOrigin(0,0)
+        this.upArrow = this.add.image(0,0,'arrow_up');
+        this.downArrow = this.add.image(0, this.numPlayerslabel.height + 2*borderPadding,'arrow_down')
+        container.add([this.numPlayerslabel, playerlabel, this.upArrow, this.downArrow])
         console.log(container.x);
         container.x = game.config.width/2 - (this.numPlayerslabel.width + playerlabel.width + borderPadding)/2
 
@@ -85,6 +87,8 @@ class Menu extends Phaser.Scene {
 
     update(){
         this.numPlayerslabel.text = numPlayers;
+        this.upArrow.visible = numPlayers < 5;
+        this.downArrow.visible =  numPlayers > 1;
     }
 
     startExpertGame() {
@@ -116,4 +120,6 @@ class Menu extends Phaser.Scene {
     openControls(){
         this.scene.start('controlsScene');
     }
+
+
 }
