@@ -132,27 +132,28 @@ class Play extends Phaser.Scene {
 
         this.containers = [];
         this.projectiles = [];
-        controls.forEach((control, index) => {
+        for (let index= 0; index < numPlayers; index++) {
+            let control = controls[index];
             let x = this.scoreLeft.x + this.scoreLeft.width + borderUISize + // THE STARTING POINT
                             (index + 1) *  borderPadding * 2  + // padding encountered
                             fireConfig.fixedWidth*(index); // compensate for past displays
-            let rocket = new Rocket(this, (index + 1) * game.config.width/(controls.length+1),
+
+            let rocket = new Rocket(this, (index + 1) * game.config.width/(numPlayers+1),
                                                 game.config.height - borderUISize - borderPadding,
                                                 'rocket', 0, control).setOrigin(0.5, 0);
                                                 //console.log(index, ": ", rocket.x, ", " ,rocket.y);
             this.rockets.push(rocket);
-            let j = 0;
-            if (index < controls.length/2) j = -1;
-            else if (index > controls.length/2) j = 1;
+            this.projectiles.push(rocket);
+
             let fireLeft = this.add.text(x, borderUISize + borderPadding*2, "FIRE", fireConfig).setOrigin(0,0);
             fireLeft.visible = false; // FIRE DISPLAY!
             this.fireLefts.push(fireLeft);
+
             let combobar = new ComboBar(this, 
                 x,
                 borderUISize + borderPadding*4, comboConfig, rocket);
             this.comboBars.push(combobar)
-            this.projectiles.push(rocket);
-        });
+        };
 
     }
 
