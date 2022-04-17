@@ -13,11 +13,11 @@ var config = {
 var game = new Phaser.Game(config);
 
 // Global Variables
-let controls = [ {left: "LEFT", right: "RIGHT", fire: "UP"},
-                 {left: "LEFT", right: "RIGHT", fire: "UP"},
-                 {left: "LEFT", right: "RIGHT", fire: "UP"},
-                 {left: "LEFT", right: "RIGHT", fire: "UP"},
-                 {left: "LEFT", right: "RIGHT", fire: "UP"}]
+let controls = [ {left: "Left", right: "Right", fire: "Up"},
+                 {left: "Left", right: "Right", fire: "Up"},
+                 {left: "Left", right: "Right", fire: "Up"},
+                 {left: "Left", right: "Right", fire: "Up"},
+                 {left: "Left", right: "Right", fire: "Up"}]
 let numPlayers = 3
 // reserve keyboard vars
 let keySPACE, keyR, keyLEFT, keyRIGHT, keyUP, keyDOWN, keyENTER, keyBACK;
