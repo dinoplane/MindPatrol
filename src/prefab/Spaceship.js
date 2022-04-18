@@ -31,7 +31,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         this.x = (this.moveDirection < 0) ? game.config.width : 0 - this.width;
     }
 
-    handleCollision(){
+    handleCollision(rocket){
         // temporarily hide ship
         this.alpha = 0;
     
@@ -45,6 +45,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
             this.alpha = 1;                       // make ship visible again
             boom.destroy();                       // remove explosion sprite
         });
+        this.scene.p1Score += this.points * rocket.combo;
     }
 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random

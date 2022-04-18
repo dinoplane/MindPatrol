@@ -1,7 +1,7 @@
 // Spaceship prefab
 class Alienship extends Spaceship {
-    constructor(scene, x, y, texture, frame, pointValue) {
-        super(scene, x, y, texture, frame, pointValue);
+    constructor(scene, x, y, texture, frame) {
+        super(scene, x, y, texture, frame, 500);
         this.anims.create({
             key: 'idle',
             frames:  this.anims.generateFrameNumbers('alienship', { start: 0, end: 3, first: 0}),
@@ -30,12 +30,11 @@ class Alienship extends Spaceship {
         })
 
         this.play('idle');
-        //console.log(this.visible);
     }
       
     reset(){
         super.reset();
-        this.moveSpeed = game.settings.spaceshipSpeed;
+        this.moveSpeed = game.settings.spaceshipSpeed * 1.5;
     }
 
     // zig movement

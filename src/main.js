@@ -41,3 +41,4 @@ let gridUnit = 80
 // Custom Mods:
 // - Combo Timer UI
 // - Custom Controls (10?)
+// - Changed the Spaceships into thoughts. Players now need to negate the bad thoughts.

@@ -30,7 +30,7 @@ class Menu extends Phaser.Scene {
         }
 
         this.add.text(game.config.width/2 , game.config.height/2 - borderUISize - borderPadding, 
-                        'ROCKET PATROL', menuConfig).setOrigin(0.5);
+                        'MIND PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2 , game.config.height/2, 
                         'Press (BACKSPACE) for controls', menuConfig).setOrigin(0.5);
         
@@ -108,10 +108,10 @@ class Menu extends Phaser.Scene {
         game.settings = {
             rocketSpeed: game.config.height/240,
             numSpaceships: 3,
-            spaceshipSpeed: game.config.width/320,
+            spaceshipSpeed: game.config.width/200,
             gameTimer: 60000,
             comboGoal: 5,
-            comboDuration: 2000
+            comboDuration: 5000
         };
         this.sound.play('sfx_select');
         this.scene.start('playScene', {controls: this.controls, numPlayers: this.numPlayers});

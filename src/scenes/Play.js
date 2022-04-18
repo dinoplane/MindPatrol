@@ -28,7 +28,7 @@ class Play extends Phaser.Scene {
 
         // add spaceships (x3)
         let aship = new Alienship(this, game.config.width + 3*borderUISize,
-            borderUISize*(4) + 2*borderPadding, 'alienship', 0, 1000).setOrigin(0,0);
+            borderUISize*(4) + 2*borderPadding, 'alienship', 0).setOrigin(0,0);
         this.colHandler.addShip(aship);
         for (let i = 0; i < game.settings.numSpaceships; i++){
             let j = game.settings.numSpaceships - i - 1;
@@ -117,7 +117,6 @@ class Play extends Phaser.Scene {
             fixedWidth: borderUISize*1.5
         }
 
-
         this.rockets = [];
         this.fireLefts = [];
         this.comboBars = [];
@@ -131,7 +130,6 @@ class Play extends Phaser.Scene {
             let rocket = new Rocket(this, (index + 1) * game.config.width/(numPlayers+1),
                                                 game.config.height - borderUISize - borderPadding,
                                                 'rocket', 0, control).setOrigin(0.5, 0);
-                                                //console.log(index, ": ", rocket.x, ", " ,rocket.y);
             this.rockets.push(rocket);
             this.colHandler.addProjectile(rocket);
 
@@ -169,15 +167,11 @@ class Play extends Phaser.Scene {
         this.timeRight.text = Math.ceil(this.clock.getOverallRemainingSeconds()); // Show me time
     }
 
-
     handleCollision(rocket, ship) {
-        this.p1Score += ship.points * rocket.combo;
         this.scoreLeft.text = this.p1Score;   
         if (rocket.combo > game.settings.comboGoal){
-            this.clock.delay += 5000;
+            this.clock.delay += 2000;
         }
         this.sound.play('sfx_explosion');  
     }
-
-
 }

@@ -1,6 +1,8 @@
 // Rocket prefab
 class Rocket extends Projectile {
     static MODES = ["normal", "Bomb"]
+    static score = 0;
+
     constructor(scene, x, y, texture, frame, controls, powerupTextures) {
         super(scene, x, y, texture, frame, 
                             game.settings.rocketSpeed, 
