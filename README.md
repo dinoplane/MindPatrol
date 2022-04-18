@@ -1,4 +1,4 @@
-# RocketHavoc
+# Mind Patrol
 
 A mod of Rocket Patrol
 
