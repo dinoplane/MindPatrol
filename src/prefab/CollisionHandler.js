@@ -1,3 +1,4 @@
+// A class to help with collisions - Professor Whitehead mentioned this in office hours!
 class CollisionHandler {
     constructor(scene){
         this.scene = scene;
