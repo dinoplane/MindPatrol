@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
         }
 
         // define keys
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // animation config
@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2, 
                             'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 
-                            'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+                            'Press (R) to Restart or (BKSP) for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
@@ -154,7 +154,7 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR))
             this.scene.restart();
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT))
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyBACK))
             this.scene.start("menuScene");
         
         this.fireLefts.forEach( (fireLeft, index) => {
@@ -170,7 +170,7 @@ class Play extends Phaser.Scene {
     handleCollision(rocket, ship) {
         this.scoreLeft.text = this.p1Score;   
         if (rocket.combo > game.settings.comboGoal){
-            this.clock.delay += 2000;
+            this.clock.delay += 4000;
         }  
     }
 }

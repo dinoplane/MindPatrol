@@ -41,6 +41,9 @@ class Menu extends Phaser.Scene {
         menuConfig.color = "#000";
         this.add.text(game.config.width/2 , game.config.height/2 + borderUISize + borderPadding, 
                         'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
+
+        this.add.text(game.config.width/2 , game.config.height/2 + borderUISize*4 + borderPadding*4, 
+                        'WARNING: CONTAINS THEMES OF ETHICAL DILLEMMAS', menuConfig).setOrigin(0.5);
        
         var container = this.add.container(game.config.width/2, 
                         game.config.height/2 + (borderUISize + borderPadding)*2);

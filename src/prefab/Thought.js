@@ -51,7 +51,7 @@ class Thought extends Spaceship {
         this.play('transition');
         this.on('animationcomplete', () => {
             this.setTexture('thought');
-            
+
             this.setFrame(this.mode);
             console.log("Combo: ", rocket.combo);
         });

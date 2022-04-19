@@ -17,7 +17,7 @@ class Rocket extends Projectile {
         this.keyFIRE.on('down', (key, event) => {
             if (!this.isFiring && !scene.gameOver){
                 this.isFiring = true;
-                //this.sfxRocket.play();  // play sfx
+                this.sfxRocket.play();  // play sfx
             }
         })
 
