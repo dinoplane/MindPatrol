@@ -14,8 +14,9 @@ class Thought extends Spaceship {
         this.anims.create({
             key: 'transition',
             frames:  this.anims.generateFrameNumbers('thought_change', { start: 0, end: 7, first: 0}),
-            frameRate: 12,
+            frameRate: 18,
         });
+        this.sfxChannel = scene.sound.add('sfx_channel');
     }
 
     isBadMode(){
@@ -30,7 +31,7 @@ class Thought extends Spaceship {
 
     reset(){
         super.reset()
-        this.mode = this.getRandomInt(Thought.TOTAL_THOUGHTS);
+        this.mode = this.getRandomInt(Thought.TOTAL_THOUGHTS + Thought.TOTAL_MODES) % Thought.TOTAL_THOUGHTS;
         this.points = Math.abs(this.points);
         this.points *= (this.isBadMode()) ? 1 : -1;
         this.setFrame(this.mode);
@@ -38,7 +39,7 @@ class Thought extends Spaceship {
 
     handleCollision(rocket){
         if (!this.isBadMode()){
-            rocket.combo = 25; // HEAVILY penalize the player for exploiting this.
+            rocket.combo = 10; // HEAVILY penalize the player for exploiting this.
         }
         this.scene.p1Score += this.points * rocket.combo;
         console.log("Points: ", this.points, " x ", rocket.combo, " = ", this.points * rocket.combo);
@@ -46,6 +47,7 @@ class Thought extends Spaceship {
             rocket.resetCombo();
         }
         this.toggleMoral();
+        this.sfxChannel.play();
         this.play('transition');
         this.on('animationcomplete', () => {
             this.setTexture('thought');

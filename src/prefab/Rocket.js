@@ -17,7 +17,7 @@ class Rocket extends Projectile {
         this.keyFIRE.on('down', (key, event) => {
             if (!this.isFiring && !scene.gameOver){
                 this.isFiring = true;
-                this.sfxRocket.play();  // play sfx
+                //this.sfxRocket.play();  // play sfx
             }
         })
 
@@ -34,6 +34,8 @@ class Rocket extends Projectile {
             callbackScope: this,
         });
         this.sfxRocket = scene.sound.add('sfx_rocket'); // add rocket sfx
+        this.sfxComboUp = scene.sound.add('sfx_combo_up');
+        this.sfxHitMiss = scene.sound.add('sfx_hitmiss');
     }
 
     update(){
@@ -51,11 +53,13 @@ class Rocket extends Projectile {
         if (this.y <= borderUISize * 3 + borderPadding){
             this.resetCombo();
             this.reset();
+            this.sfxHitMiss.play();
         }
     }
 
     incrementCombo(){
         this.combo += 1;
+        ;
         this.comboTimer.remove();
         this.comboTimer.reset({
             delay:  game.settings.comboDuration,
@@ -75,8 +79,14 @@ class Rocket extends Projectile {
         this.isFiring = false;
     }
 
-    handleCollision(){
-        this.incrementCombo();
+    handleCollision(ship){
+        if (ship.points > 0){
+            this.incrementCombo();
+            this.sfxComboUp.play();
+        } else {
+            this.sfxHitMiss.play();
+            this.resetCombo();
+        }
         this.reset();
     }
 }

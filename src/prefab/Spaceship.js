@@ -39,6 +39,7 @@ class Spaceship extends Phaser.GameObjects.Sprite {
         let boom = this.scene.add.sprite(this.x, this.y, 'explosion').setOrigin(0, 0);
         this.reset(); // reset ship position
         this.togglePause(); // stop the ship's movement
+        this.scene.sound.play('sfx_explosion');
         boom.anims.play('explode');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after anim completes
             this.togglePause();               

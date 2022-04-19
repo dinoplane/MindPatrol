@@ -171,7 +171,6 @@ class Play extends Phaser.Scene {
         this.scoreLeft.text = this.p1Score;   
         if (rocket.combo > game.settings.comboGoal){
             this.clock.delay += 2000;
-        }
-        this.sound.play('sfx_explosion');  
+        }  
     }
 }
